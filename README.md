@@ -4,7 +4,7 @@
 <br>- Jayden Hartanto
 <br>- Lyonel Everson
 <br>- Christian Alexander</p>
-<br><br><p>konten dalam website tersebut bersifat fiksional, dan hanya dipakai untuk kepentingan edukasional.<p>
+<br><p>konten dalam website tersebut bersifat fiksional, dan hanya dipakai untuk kepentingan edukasional.<p>
 
-<h2><br>© 2026 PT. JALN Media, All rights reserved.
+<h2>© 2026 PT. JALN Media, All rights reserved.
 <h2>
