@@ -1,6 +1,6 @@
 <h1><b>Tim-geo-formal-Siaga_now</b></h1>
 <h3> DIBUAT OLEH: </h3>
-<br><p>- Nathanael Jay Wijaya
+<p>- Nathanael Jay Wijaya
 <br>- Jayden Hartanto
 <br>- Lyonel Everson
 <br>- Christian Alexander</p>
