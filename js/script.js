@@ -1,139 +1,280 @@
+// =====================================================
+// SIAGANOW CLEAN BUILD
+// Hero Title FX + Flood Physics (BANJIR ONLY)
+// =====================================================
+
 // ─────────────────────────────────────────────
 // HERO CANVAS SETUP
 // ─────────────────────────────────────────────
 const canvas = document.getElementById("hero-canvas");
 const ctx = canvas.getContext("2d");
 
-let W, H;
+let W = 0, H = 0;
 
 function resize() {
   W = canvas.width = canvas.offsetWidth;
   H = canvas.height = canvas.offsetHeight;
 }
-resize();
 window.addEventListener("resize", resize);
+resize();
 
 // ─────────────────────────────────────────────
-// HELPERS
+// HERO TITLE PARTICLE EFFECT (KEPT + CLEANED)
 // ─────────────────────────────────────────────
-const rand = (a, b) => a + Math.random() * (b - a);
+const titleParticles = [];
+
+function spawnTitleParticle() {
+  titleParticles.push({
+    x: Math.random() * W,
+    y: Math.random() * H * 0.4,
+    vx: (Math.random() - 0.5) * 0.4,
+    vy: 0.3 + Math.random() * 0.6,
+    r: 1 + Math.random() * 2,
+    alpha: 0.2 + Math.random() * 0.5
+  });
+}
 
 // ─────────────────────────────────────────────
-// MATERI.JS FLOOD SYSTEM
+// FLOOD PHYSICS SYSTEM (BANJIR)
 // ─────────────────────────────────────────────
-const { Engine, World, Bodies, Body } = Matter;
+const waterPoints = [];
+const POINTS = 90;
 
-const engine = Engine.create();
-engine.gravity.y = 0.5;
+const bodies = [];
+const rain = [];
 
-let bodies = [];
-let floodLevel = 0;
-let t = 0;
+let waveT = 0;
 
-// ─────────────────────────────────────────────
-// INIT FLOOD OBJECTS
-// ─────────────────────────────────────────────
-function initFlood() {
-  floodLevel = H;
-
-  // clear old bodies
-  for (const b of bodies) {
-    World.remove(engine.world, b);
+// init water surface
+function initWater() {
+  waterPoints.length = 0;
+  for (let i = 0; i <= POINTS; i++) {
+    waterPoints.push({
+      x: (i / POINTS) * W,
+      y: H * 0.68,
+      vy: 0,
+      target: H * 0.68
+    });
   }
-  bodies = [];
+}
+initWater();
 
-  // spawn floating debris
-  for (let i = 0; i < 25; i++) {
-    const box = Bodies.rectangle(
-      rand(0, W),
-      rand(H * 0.2, H),
-      rand(20, 60),
-      rand(10, 25),
-      {
-        restitution: 0.4,
-        friction: 0.3,
-        density: 0.002
-      }
-    );
+// floating objects
+function spawnBody() {
+  bodies.push({
+    x: Math.random() * W,
+    y: -40,
+    vx: (Math.random() - 0.5) * 1.2,
+    vy: Math.random() * 1.5,
+    size: 10 + Math.random() * 18,
+    buoyancy: 0.03 + Math.random() * 0.02,
+    drag: 0.985,
+    color: `hsl(${30 + Math.random() * 30}, 55%, 40%)`
+  });
+}
 
-    bodies.push(box);
-    World.add(engine.world, box);
+// rain
+function spawnRain() {
+  rain.push({
+    x: Math.random() * W,
+    y: -10,
+    vy: 7 + Math.random() * 6,
+    len: 10 + Math.random() * 12,
+    alpha: 0.3 + Math.random() * 0.4
+  });
+}
+
+// water wave physics (spring system)
+function updateWater() {
+  waveT += 0.04;
+
+  for (let i = 0; i < waterPoints.length; i++) {
+    const p = waterPoints[i];
+
+    const wave =
+      Math.sin(i * 0.22 + waveT) * 10 +
+      Math.sin(i * 0.06 + waveT * 1.4) * 20;
+
+    p.target = H * 0.72 + wave;
+
+    const force = (p.target - p.y) * 0.02;
+    p.vy += force;
+    p.vy *= 0.86;
+    p.y += p.vy;
+  }
+}
+
+// disturb water when object hits
+function splash(x, power = 1) {
+  const idx = Math.floor((x / W) * POINTS);
+  for (let i = -4; i <= 4; i++) {
+    const p = waterPoints[idx + i];
+    if (!p) continue;
+    p.vy -= power * (1 - Math.abs(i) / 5) * 6;
+  }
+}
+
+// physics update
+function updateBodies() {
+  for (let b of bodies) {
+    b.vy += 0.14;
+
+    const waterY = getWater(b.x);
+
+    if (b.y > waterY) {
+      const depth = b.y - waterY;
+      b.vy -= depth * b.buoyancy;
+      b.vx *= 0.98;
+
+      splash(b.x, 0.8);
+    }
+
+    b.x += b.vx;
+    b.y += b.vy;
+
+    b.vx *= b.drag;
+
+    if (b.y > H + 120) {
+      b.x = Math.random() * W;
+      b.y = -50;
+      b.vy = 0;
+    }
+  }
+}
+
+// get water height at x
+function getWater(x) {
+  const i = Math.floor((x / W) * POINTS);
+  return waterPoints[i]?.y || H;
+}
+
+// ─────────────────────────────────────────────
+// DRAW FUNCTIONS
+// ─────────────────────────────────────────────
+function drawBackground() {
+  const g = ctx.createRadialGradient(W / 2, H, 0, W / 2, H, H);
+  g.addColorStop(0, "rgba(0,50,100,0.25)");
+  g.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+}
+
+// water surface
+function drawWater() {
+  ctx.beginPath();
+  ctx.moveTo(0, H);
+
+  for (let p of waterPoints) {
+    ctx.lineTo(p.x, p.y);
+  }
+
+  ctx.lineTo(W, H);
+  ctx.closePath();
+
+  const grad = ctx.createLinearGradient(0, H * 0.4, 0, H);
+  grad.addColorStop(0, "rgba(26,115,232,0.55)");
+  grad.addColorStop(1, "rgba(0,15,50,0.9)");
+
+  ctx.fillStyle = grad;
+  ctx.fill();
+}
+
+// floating debris
+function drawBodies() {
+  for (let b of bodies) {
+    ctx.fillStyle = b.color;
+    ctx.fillRect(b.x, b.y, b.size, b.size * 0.6);
+  }
+}
+
+// rain
+function drawRain() {
+  for (let i = rain.length - 1; i >= 0; i--) {
+    const r = rain[i];
+
+    r.y += r.vy;
+    r.x -= 1.3;
+
+    ctx.strokeStyle = `rgba(180,220,255,${r.alpha})`;
+    ctx.beginPath();
+    ctx.moveTo(r.x, r.y);
+    ctx.lineTo(r.x + 2, r.y + r.len);
+    ctx.stroke();
+
+    if (r.y > H) rain.splice(i, 1);
   }
 }
 
 // ─────────────────────────────────────────────
-// UPDATE + DRAW FLOOD
+// TITLE PARTICLES DRAW (SUBTLE FLOAT EFFECT)
 // ─────────────────────────────────────────────
-function drawFlood() {
-  ctx.clearRect(0, 0, W, H);
+function drawTitleParticles() {
+  for (let i = titleParticles.length - 1; i >= 0; i--) {
+    const p = titleParticles[i];
 
-  Engine.update(engine);
+    p.x += p.vx;
+    p.y += p.vy;
+    p.alpha -= 0.003;
 
-  // rising flood
-  floodLevel -= 0.15;
-  if (floodLevel < H * 0.35) floodLevel = H * 0.35;
-
-  // ── WATER SURFACE ──
-  ctx.beginPath();
-  ctx.moveTo(0, floodLevel);
-
-  for (let x = 0; x <= W; x += 10) {
-    const wave =
-      Math.sin(x * 0.02 + t * 0.02) * 12 +
-      Math.sin(x * 0.05 + t * 0.01) * 6;
-
-    ctx.lineTo(x, floodLevel + wave);
-  }
-
-  ctx.lineTo(W, H);
-  ctx.lineTo(0, H);
-  ctx.closePath();
-
-  const grad = ctx.createLinearGradient(0, floodLevel, 0, H);
-  grad.addColorStop(0, "rgba(26,115,232,0.65)");
-  grad.addColorStop(1, "rgba(0,20,60,0.85)");
-
-  ctx.fillStyle = grad;
-  ctx.fill();
-
-  // ── FLOATING OBJECTS ──
-  for (const b of bodies) {
-    const v = b.vertices;
-
-    // buoyancy (fake water lift)
-    if (b.position.y < floodLevel) {
-      Body.applyForce(b, b.position, {
-        x: 0,
-        y: -0.0018
-      });
+    if (p.alpha <= 0) {
+      titleParticles.splice(i, 1);
+      continue;
     }
 
+    ctx.globalAlpha = p.alpha;
+    ctx.fillStyle = "rgba(255,140,0,1)";
     ctx.beginPath();
-    ctx.moveTo(v[0].x, v[0].y);
-
-    for (let i = 1; i < v.length; i++) {
-      ctx.lineTo(v[i].x, v[i].y);
-    }
-
-    ctx.closePath();
-
-    ctx.fillStyle = "rgba(255,255,255,0.75)";
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
     ctx.fill();
+    ctx.globalAlpha = 1;
   }
-
-  t++;
 }
 
 // ─────────────────────────────────────────────
 // MAIN LOOP
 // ─────────────────────────────────────────────
+let timer = 0;
+
 function loop() {
-  drawFlood();
+  ctx.clearRect(0, 0, W, H);
+
+  drawBackground();
+
+  updateWater();
+  updateBodies();
+
+  drawRain();
+  drawWater();
+  drawBodies();
+  drawTitleParticles();
+
+  // spawning logic
+  if (timer % 3 === 0) spawnRain();
+  if (timer % 100 === 0) spawnBody();
+  if (timer % 2 === 0) spawnTitleParticle();
+
+  timer++;
+
   requestAnimationFrame(loop);
 }
+loop();
 
 // ─────────────────────────────────────────────
-// INIT
+// INIT RESET
 // ─────────────────────────────────────────────
-initFlood();
-loop();
+window.addEventListener("resize", () => {
+  resize();
+  initWater();
+});
+
+// ─────────────────────────────────────────────
+// MODE SWITCH (SAFE, NO OTHER SYSTEMS)
+// ─────────────────────────────────────────────
+function switchDisaster(mode, btn) {
+  document.querySelectorAll(".dtab").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+
+  if (mode !== "banjir") {
+    console.log("Only flood mode is active in this build.");
+  }
+}
