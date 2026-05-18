@@ -1,7 +1,9 @@
 const title = document.querySelector(".hero-title");
 
 document.addEventListener("mousemove", (e) => {
-  title.style.position = "absolute";
-  title.style.left = `${e.clientX}px`;
-  title.style.top = `${e.clientY}px`;
+  const x = e.clientX;
+  const y = e.clientY;
+
+  title.style.setProperty("--x", `${x}px`);
+  title.style.setProperty("--y", `${y}px`);
 });
