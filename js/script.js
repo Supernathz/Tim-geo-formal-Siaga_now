@@ -1,6 +1,6 @@
 const title = document.querySelector(".hero-title");
 
-title.addEventListener("mousemove", (e) => {
+document.addEventListener("mousemove", (e) => {
   const rect = title.getBoundingClientRect();
 
   const x = e.clientX - rect.left;
