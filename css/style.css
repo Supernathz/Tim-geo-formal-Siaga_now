@@ -121,44 +121,6 @@ nav a:hover {
         var(--dark);
 }
 
-#hero > *:not(canvas):not(.water) {
-    position: relative;
-    z-index: 2;
-}
-
-.water {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-
-    width: 200%; /* key trick */
-    height: 40%;
-
-    background: linear-gradient(
-        to bottom,
-        rgba(66,165,245,0.15),
-        rgba(21,101,192,0.45)
-    );
-
-    animation: waveFlow 8s linear infinite;
-}
-@keyframes waveFlow {
-    from {
-        transform: translateX(0) translateY(0);
-    }
-    to {
-        transform: translateX(-50%) translateY(10px);
-    }
-}
-
-#physics-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-}
-
-
 .hero-title {
 
     font-family: 'Bebas Neue', sans-serif;
@@ -196,9 +158,6 @@ nav a:hover {
     color: rgba(255,255,255,0.7);
 }
 
-/* =========================
-   CTA
-========================= */
 
 .cta-btn {
 
