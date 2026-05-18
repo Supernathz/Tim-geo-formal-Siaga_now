@@ -160,6 +160,10 @@ a {
 }
 
 .hero-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: clamp(5rem, 14vw, 11rem);
+        line-height: 0.92;
+        letter-spacing: 3px;
     background: radial-gradient(
         circle 650px at var(--x, 50%) var(--y, 50%),
         rgba(255,255,255,1) 0%,
