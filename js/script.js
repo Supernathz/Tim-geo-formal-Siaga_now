@@ -127,16 +127,22 @@ Events.on(engine, "beforeUpdate", () => {
 
     debrisBodies.forEach(body => {
 
-        if (body.position.y > window.innerHeight * 0.65) {
+        // 🌊 constant rightward current (flood flow)
+        Body.applyForce(
+            body,
+            body.position,
+            {
+                x: 0.0012,
+                y: 0
+            }
+        );
 
-            Body.applyForce(
-                body,
-                body.position,
-                {
-                    x: 0,
-                    y: -0.002
-                }
-            );
+        // 🌊 slight upward buoyancy when low
+        if (body.position.y > window.innerHeight * 0.65) {
+            Body.applyForce(body, body.position, {
+                x: 0,
+                y: -0.0018
+            });
         }
     });
 });
