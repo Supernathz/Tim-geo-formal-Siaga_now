@@ -1,10 +1,11 @@
 :root {
-    /* primer */
+
+    /* PRIMARY */
     --primary: #4caf50;
     --primary-light: #a5d6a7;
     --primary-dark: #2e7d32;
 
-    /* bonus */
+    /* ACCENTS */
     --orange: #ff9800;
     --orange-light: #ffb74d;
 
@@ -14,7 +15,7 @@
     --blue: #1565c0;
     --blue-light: #42a5f5;
 
-    /*netral*/
+    /* NEUTRALS */
     --white: #f3f4f6;
     --grey: #6b7280;
 
@@ -23,7 +24,6 @@
 
     --border: rgba(255,255,255,0.08);
 }
-
 
 *,
 *::before,
@@ -40,75 +40,45 @@ html {
 body {
     background: var(--dark);
     color: var(--white);
-
     font-family: 'Outfit', sans-serif;
     line-height: 1.6;
-
     overflow-x: hidden;
 }
 
-
-.container {
-    width: min(1200px, 90%);
-    margin: auto;
-}
-
+/* =========================
+   HEADER
+========================= */
 
 header {
     position: sticky;
     top: 0;
     z-index: 1000;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     padding: 1rem 5%;
+
     background: rgba(15, 23, 42, 0.85);
     backdrop-filter: blur(12px);
+
     border-bottom: 1px solid var(--border);
-}
-
-
-.nav-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
 }
 
 .logo {
     width: 70px;
-    height: auto;
 }
-
-.navtext {
-    display: flex;
-    flex-direction: column;
-}
-
-.navtext h2 {
-    font-size: 1.3rem;
-    color: var(--white);
-}
-
-.navtext h4 {
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.6);
-}
-
 
 nav {
     display: flex;
-    align-items: center;
     gap: 2rem;
 }
 
 nav a {
-    color: var(--primary-light);
-
+    color: rgba(255,255,255,0.75);
     text-decoration: none;
-
-    font-size: 0.95rem;
     font-weight: 600;
-
     transition: 0.3s ease;
 }
 
@@ -116,6 +86,9 @@ nav a:hover {
     color: var(--orange);
 }
 
+/* =========================
+   HERO
+========================= */
 
 #hero {
     min-height: 100vh;
@@ -131,7 +104,7 @@ nav a:hover {
 
     position: relative;
     overflow: hidden;
-    
+
     background:
         radial-gradient(
             ellipse at 60% 40%,
@@ -151,16 +124,70 @@ nav a:hover {
         var(--dark);
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
+#hero > *:not(canvas):not(.water) {
+    position: relative;
+    z-index: 2;
 }
 
-a {
-    text-decoration: none;
+/* =========================
+   WATER
+========================= */
+
+.water {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 35%;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(66,165,245,0.15),
+            rgba(21,101,192,0.45)
+        );
+
+    backdrop-filter: blur(6px);
+
+    z-index: 0;
+
+    animation: waveFloat 6s ease-in-out infinite alternate;
 }
+
+@keyframes waveFloat {
+
+    from {
+        transform: translateY(0px);
+    }
+
+    to {
+        transform: translateY(12px);
+    }
+}
+
+/* =========================
+   MATTER JS CANVAS
+========================= */
+
+#physics-canvas {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+}
+
+/* =========================
+   HERO TITLE
+========================= */
 
 .hero-title {
+
     font-family: 'Bebas Neue', sans-serif;
+
     font-size: clamp(6rem, 14vw, 11rem);
     line-height: 0.92;
     letter-spacing: 3px;
@@ -168,12 +195,12 @@ a {
     display: inline-block;
 
     background: radial-gradient(
-        circle 450px at var(--x, 50%) var(--y, 50%),
+        circle 280px at var(--x, 50%) var(--y, 50%),
         var(--white) 0%,
         var(--primary-light) 20%,
-        var(--primary) 40%,
+        var(--primary) 42%,
         var(--blue-light) 65%,
-        var(--orange-light) 82%,
+        var(--orange-light) 85%,
         var(--red-light) 100%
     );
 
@@ -188,38 +215,49 @@ a {
     transition: background 0.08s linear;
 }
 
+/* =========================
+   SUBTITLE
+========================= */
+
 .hero-sub {
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-    color: rgba(255, 255, 255, 0.6);
-    margin: 18px auto 40px;
-    max-width: 500px;
-    font-style: italic;
-    animation: fadeUp 0.7s 0.2s ease both;
+    margin-top: 1rem;
+
+    font-size: 1.2rem;
+
+    color: rgba(255,255,255,0.7);
 }
 
+/* =========================
+   CTA
+========================= */
+
 .cta-btn {
+
+    margin-top: 2rem;
+
     background: var(--primary);
+
     color: var(--dark);
 
-    box-shadow:
-        0 0 20px var(--primary),
-        0 0 40px var(--blue);
+    padding: 16px 36px;
+
+    border-radius: 8px;
 
     font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: 0.5px;
 
-    padding: 16px 36px;
-    border-radius: 8px;
+    text-decoration: none;
 
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
 
-    animation: fadeUp 0.7s 0.3s ease both;
+    box-shadow:
+        0 0 20px var(--primary),
+        0 0 40px var(--blue);
 }
 
 .cta-btn:hover {
+
     transform: translateY(-3px);
 
     box-shadow:
@@ -227,38 +265,11 @@ a {
         0 0 60px var(--blue-light);
 }
 
-.cta-btn:active {
-    transform: scale(0.98);
-}
-
-/* OPTIONAL ICON SUPPORT */
-.cta-btn svg {
-    width: 18px;
-    height: 18px;
-}
-
 footer {
+
+    padding: 2rem 5%;
+
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-}
-
-@media (max-width: 480px) {
-
-    .navtext h2 {
-        font-size: 1rem;
-    }
-
-    .navtext h4 {
-        font-size: 0.7rem;
-    }
-
-    .hero-sub {
-        width: 90%;
-    }
-
-    .cta-btn {
-        width: 100%;
-        justify-content: center;
-    }
 }
