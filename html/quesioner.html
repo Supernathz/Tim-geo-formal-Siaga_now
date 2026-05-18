@@ -1,1 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuis Mitigasi Bencana</title>
 
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    margin:0;
+    padding:20px;
+}
+
+.quiz-container{
+    max-width:900px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h1{
+    text-align:center;
+    color:#145c43;
+}
+
+.question{
+    margin-bottom:30px;
+    padding-bottom:20px;
+    border-bottom:1px solid #ddd;
+}
+
+.question h3{
+    color:#333;
+}
+
+label{
+    display:block;
+    margin:8px 0;
+    padding:10px;
+    background:#f1f1f1;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+label:hover{
+    background:#d9efe6;
+}
+
+button{
+    display:block;
+    margin:auto;
+    padding:12px 25px;
+    border:none;
+    border-radius:10px;
+    background:#145c43;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0d3f2e;
+}
+
+#result{
+    margin-top:25px;
+    text-align:center;
+    font-size:24px;
+    font-weight:bold;
+    color:#145c43;
+}
+
+.explanation{
+    display:none;
+    margin-top:10px;
+    padding:10px;
+    background:#eef8f4;
+    border-left:5px solid green;
+    border-radius:5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="quiz-container">
+<h1>Kuis Mitigasi Bencana</h1>
+
+<form id="quizForm">
+
+<!-- 1 -->
+<div class="question">
+<h3>1. Barang apa yang wajib dibawa saat terjadi gempa atau bencana?</h3>
+
+<label><input type="radio" name="q1" value="correct"> Dokumen penting (KTP, KK, dll)</label>
+<label><input type="radio" name="q1"> Motor</label>
+<label><input type="radio" name="q1"> Ponsel</label>
+<label><input type="radio" name="q1"> Dompet</label>
+
+<div class="explanation">
+Saat terjadi bencana, disarankan memprioritaskan dokumen penting agar mudah diidentifikasi oleh tim penyelamat.
+</div>
+</div>
+
+<!-- 2 -->
+<div class="question">
+<h3>2. Jika terjadi gempa bumi saat berada di rumah, apa yang harus dilakukan?</h3>
+
+<label><input type="radio" name="q2" value="correct"> Cari area lapangan</label>
+<label><input type="radio" name="q2"> Tetap di dalam rumah</label>
+<label><input type="radio" name="q2"> Santai saja karena gempa tidak besar</label>
+<label><input type="radio" name="q2"> Menelepon keluarga</label>
+
+<div class="explanation">
+Segera menuju area terbuka untuk menghindari bahaya runtuhan bangunan dan tiang listrik.
+</div>
+</div>
+
+<!-- 3 -->
+<div class="question">
+<h3>3. Jika terjebak di bawah reruntuhan, apa yang sebaiknya dilakukan?</h3>
+
+<label><input type="radio" name="q3" value="correct"> Menunggu bantuan</label>
+<label><input type="radio" name="q3"> Buka live TikTok</label>
+<label><input type="radio" name="q3"> Mencari jalan keluar</label>
+<label><input type="radio" name="q3"> Terus-menerus berteriak</label>
+
+<div class="explanation">
+Lebih baik menghemat tenaga dan menunggu sinyal atau bantuan dari tim penyelamat.
+</div>
+</div>
+
+<!-- 4 -->
+<div class="question">
+<h3>4. Tanda-tanda apa yang muncul saat akan terjadi banjir?</h3>
+
+<label><input type="radio" name="q4" value="correct"> Hujan lebat yang tidak tampak surut</label>
+<label><input type="radio" name="q4"> Angin gemuruh</label>
+<label><input type="radio" name="q4"> Tetangga karaoke</label>
+<label><input type="radio" name="q4"> Ban motor pecah</label>
+
+<div class="explanation">
+Hujan deras berkepanjangan sering menjadi tanda awal banjir.
+</div>
+</div>
+
+<!-- 5 -->
+<div class="question">
+<h3>5. Apa tujuan utama mitigasi bencana?</h3>
+
+<label><input type="radio" name="q5" value="correct"> Mengurangi risiko dan korban jiwa</label>
+<label><input type="radio" name="q5"> Menghentikan hujan</label>
+<label><input type="radio" name="q5"> Membuat bencana lebih besar</label>
+<label><input type="radio" name="q5"> Supaya bencana selesai selamanya</label>
+
+<div class="explanation">
+Mitigasi bencana bertujuan mengurangi dampak dan korban akibat bencana.
+</div>
+</div>
+
+<!-- 6 -->
+<div class="question">
+<h3>6. Apa yang sebaiknya dilakukan dalam antisipasi banjir masuk ke rumah?</h3>
+
+<label><input type="radio" name="q6" value="correct"> Mematikan semua listrik di rumah</label>
+<label><input type="radio" name="q6"> Menyalakan semua barang elektronik</label>
+<label><input type="radio" name="q6"> Buang semua barang yang tidak waterproof</label>
+<label><input type="radio" name="q6"> Tidak harus melakukan apa-apa</label>
+
+<div class="explanation">
+Mematikan listrik dapat mencegah korsleting dan sengatan listrik saat banjir.
+</div>
+</div>
+
+<!-- 7 -->
+<div class="question">
+<h3>7. Opsi mana yang termasuk cara mitigasi tanah longsor?</h3>
+
+<label><input type="radio" name="q7" value="correct"> Menghindari situs longsor dan mencari titik aman</label>
+<label><input type="radio" name="q7"> Merekam tanah longsor supaya bisa viral</label>
+<label><input type="radio" name="q7"> Tunggu sampai longsor selesai sebelum pergi</label>
+<label><input type="radio" name="q7"> Melempar batu ke tanah longsor</label>
+
+<div class="explanation">
+Menghindari area rawan longsor membantu mengurangi risiko terkena longsor susulan.
+</div>
+</div>
+
+<!-- 8 -->
+<div class="question">
+<h3>8. Mengapa senter penting dalam Tas Siaga Bencana?</h3>
+
+<label><input type="radio" name="q8" value="correct"> Membantu penerangan saat listrik mati</label>
+<label><input type="radio" name="q8"> Untuk main game di HP</label>
+<label><input type="radio" name="q8"> Supaya terlihat keren</label>
+<label><input type="radio" name="q8"> Tidak penting sama sekali</label>
+
+<div class="explanation">
+Saat bencana, listrik sering padam sehingga senter menjadi sumber penerangan penting.
+</div>
+</div>
+
+<!-- 9 -->
+<div class="question">
+<h3>9. Apa nomor darurat yang bisa dihubungi saat terjadi bencana?</h3>
+
+<label><input type="radio" name="q9" value="correct"> 112</label>
+<label><input type="radio" name="q9"> 911</label>
+<label><input type="radio" name="q9"> 6767</label>
+<label><input type="radio" name="q9"> 211</label>
+
+<div class="explanation">
+112 adalah nomor layanan darurat di Indonesia untuk keadaan bencana atau darurat lainnya.
+</div>
+</div>
+
+<!-- 10 -->
+<div class="question">
+<h3>10. Area manakah yang paling berisiko mengalami longsor?</h3>
+
+<label><input type="radio" name="q10" value="correct"> Lereng</label>
+<label><input type="radio" name="q10"> Puncak gunung</label>
+<label><input type="radio" name="q10"> Sungai</label>
+<label><input type="radio" name="q10"> Danau</label>
+
+<div class="explanation">
+Area lereng memiliki risiko tinggi longsor terutama saat hujan deras.
+</div>
+</div>
+
+<button type="button" onclick="checkAnswers()">Submit Quiz</button>
+
+<div id="result"></div>
+
+</form>
+</div>
+
+<script>
+function checkAnswers(){
+
+    let score = 0;
+    let total = 10;
+
+    for(let i = 1; i <= total; i++){
+
+        let answers = document.getElementsByName("q" + i);
+        let correct = false;
+
+        for(let answer of answers){
+
+            if(answer.checked && answer.value === "correct"){
+                correct = true;
+                score++;
+            }
+        }
+
+        let explanation = answers[0]
+            .closest(".question")
+            .querySelector(".explanation");
+
+        explanation.style.display = "block";
+
+        if(correct){
+            explanation.style.borderLeftColor = "green";
+        }else{
+            explanation.style.borderLeftColor = "red";
+        }
+    }
+
+    document.getElementById("result").innerHTML =
+        "Skor Kamu: " + score + " / " + total;
+}
+</script>
+
+</body>
+</html>
