@@ -1,4 +1,4 @@
-const title = document.getElementById("heroTitle");
+const title = document.querySelector(".hero-title");
 
 document.addEventListener("mousemove", (e) => {
     const x = (e.clientX / window.innerWidth) * 100;
