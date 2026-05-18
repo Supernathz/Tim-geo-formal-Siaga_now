@@ -1,110 +1,111 @@
+document.addEventListener("DOMContentLoaded", () => {
 
+  /* =========================
+     DISASTER TABS (Hero)
+  ========================== */
 
-const canvas = document.getElementById("hero-canvas");
-const ctx = canvas.getContext("2d");
+  const tabs = document.querySelectorAll(".dtab");
 
-let w;
-let h;
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => {
 
-function resizeCanvas() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-}
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
 
-resizeCanvas();
-
-window.addEventListener("resize", resizeCanvas);
-
-// particles
-const particles = [];
-
-for (let i = 0; i < 80; i++) {
-  particles.push({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    r: Math.random() * 3,
-    dx: (Math.random() - 0.5) * 0.6,
-    dy: (Math.random() - 0.5) * 0.6
-  });
-}
-
-function animate() {
-
-  ctx.clearRect(0, 0, w, h);
-
-  particles.forEach((p) => {
-
-    p.x += p.dx;
-    p.y += p.dy;
-
-    if (p.x < 0 || p.x > w) p.dx *= -1;
-    if (p.y < 0 || p.y > h) p.dy *= -1;
-
-    ctx.beginPath();
-
-    ctx.arc(
-      p.x,
-      p.y,
-      p.r,
-      0,
-      Math.PI * 2
-    );
-
-    ctx.fillStyle =
-      "rgba(76,175,80,.4)";
-
-    ctx.fill();
+      // optional behavior: you can extend this later
+      console.log("Selected disaster tab:", index);
+    });
   });
 
-  requestAnimationFrame(animate);
-}
 
-animate();
+  /* =========================
+     CHECKLIST + PROGRESS BAR
+  ========================== */
 
-const checklistItems =
-  document.querySelectorAll(".checklist-item");
+  const checkboxes = document.querySelectorAll(".checklist-item");
+  const progressFill = document.querySelector(".progress-fill");
 
-const progressFill =
-  document.querySelector(".progress-fill");
+  let checkedCount = 0;
+  const total = checkboxes.length;
 
-checklistItems.forEach((item) => {
+  function updateProgress() {
+    const percent = (checkedCount / total) * 100;
+    if (progressFill) {
+      progressFill.style.width = percent + "%";
+    }
+  }
 
-  item.addEventListener("click", () => {
+  checkboxes.forEach(item => {
+    const box = item.querySelector(".check-box");
 
-    item.classList.toggle("checked");
+    item.addEventListener("click", () => {
+      const isChecked = item.classList.toggle("checked");
 
-    const checked =
-      document.querySelectorAll(
-        ".checklist-item.checked"
-      ).length;
+      if (box) {
+        box.textContent = isChecked ? "✓" : "";
+      }
 
-    const total =
-      checklistItems.length;
-
-    const progress =
-      (checked / total) * 100;
-
-    progressFill.style.width =
-      `${progress}%`;
+      checkedCount += isChecked ? 1 : -1;
+      updateProgress();
+    });
   });
-});
 
-const fadeItems =
-  document.querySelectorAll(".fade-up");
 
-fadeItems.forEach((item, index) => {
+  /* =========================
+     QUIZ SYSTEM
+  ========================== */
 
-  item.style.opacity = 0;
+  const options = document.querySelectorAll(".quiz-opt");
+  const feedback = document.querySelector(".quiz-feedback");
+  const nextBtn = document.querySelector(".quiz-btn");
 
-  setTimeout(() => {
+  const correctAnswerIndex = 0;
 
-    item.style.transition =
-      "all .7s ease";
+  options.forEach((opt, index) => {
+    opt.addEventListener("click", () => {
 
-    item.style.opacity = 1;
+      options.forEach(o => o.classList.remove("selected"));
+      opt.classList.add("selected");
 
-    item.style.transform =
-      "translateY(0px)";
+      if (index === correctAnswerIndex) {
+        feedback.textContent = "✔ Benar! Berlindung di bawah meja saat gempa.";
+        feedback.style.color = "#2ecc71";
+      } else {
+        feedback.textContent = "✖ Kurang tepat. Hindari kaca dan benda berbahaya.";
+        feedback.style.color = "#e74c3c";
+      }
+    });
+  });
 
-  }, index * 120);
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      feedback.textContent = "";
+      options.forEach(o => o.classList.remove("selected"));
+    });
+  }
+
+  const canvas = document.getElementById("hero-canvas");
+
+  if (canvas) {
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    // simple background animation placeholder
+    function draw() {
+      ctx.fillStyle = "rgba(0,0,0,0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  }
+
 });
