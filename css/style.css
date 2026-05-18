@@ -45,9 +45,6 @@ body {
     overflow-x: hidden;
 }
 
-/* =========================
-   HEADER
-========================= */
 
 header {
     position: sticky;
@@ -129,46 +126,30 @@ nav a:hover {
     z-index: 2;
 }
 
-/* =========================
-   WATER
-========================= */
-
 .water {
     position: absolute;
     bottom: 0;
     left: 0;
 
-    width: 100%;
-    height: 35%;
+    width: 200%; /* key trick */
+    height: 40%;
 
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(66,165,245,0.15),
-            rgba(21,101,192,0.45)
-        );
+    background: linear-gradient(
+        to bottom,
+        rgba(66,165,245,0.15),
+        rgba(21,101,192,0.45)
+    );
 
-    backdrop-filter: blur(6px);
-
-    z-index: 0;
-
-    animation: waveFloat 6s ease-in-out infinite alternate;
+    animation: waveFlow 8s linear infinite;
 }
-
-@keyframes waveFloat {
-
+@keyframes waveFlow {
     from {
-        transform: translateY(0px);
+        transform: translateX(0) translateY(0);
     }
-
     to {
-        transform: translateY(12px);
+        transform: translateX(-50%) translateY(10px);
     }
 }
-
-/* =========================
-   MATTER JS CANVAS
-========================= */
 
 #physics-canvas {
     position: absolute;
@@ -180,9 +161,6 @@ nav a:hover {
     z-index: 1;
 }
 
-/* =========================
-   HERO TITLE
-========================= */
 
 .hero-title {
 
@@ -195,13 +173,11 @@ nav a:hover {
     display: inline-block;
 
     background: radial-gradient(
-        circle 280px at var(--x, 50%) var(--y, 50%),
-        var(--white) 0%,
-        var(--primary-light) 20%,
-        var(--primary) 42%,
-        var(--blue-light) 65%,
-        var(--orange-light) 85%,
-        var(--red-light) 100%
+        circle 320px at var(--x, 50%) var(--y, 50%),
+        #ffffff 0%,
+        #c8f7c5 25%,
+        #4caf50 55%,
+        #1b5e20 100%
     );
 
     background-repeat: no-repeat;
@@ -214,10 +190,6 @@ nav a:hover {
 
     transition: background 0.08s linear;
 }
-
-/* =========================
-   SUBTITLE
-========================= */
 
 .hero-sub {
     margin-top: 1rem;
