@@ -174,10 +174,10 @@ nav a:hover {
 
     background: radial-gradient(
         circle 320px at var(--x, 50%) var(--y, 50%),
-        #ffffff 0%,
-        #c8f7c5 25%,
-        #4caf50 55%,
-        #1b5e20 100%
+        var(--white) 0%,
+        var(--primary-light) 25%,
+        var(--primary) 55%,
+        var(--primary-dark) 100%
     );
 
     background-repeat: no-repeat;
