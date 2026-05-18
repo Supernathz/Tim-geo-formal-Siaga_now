@@ -143,22 +143,17 @@ a {
     text-decoration: none;
 }
 
-/* =========================
-   HERO TITLE
-========================= */
-
 .hero-title {
     font-family: 'Bebas Neue', sans-serif;
 
     font-size: clamp(5rem, 14vw, 11rem);
-
     line-height: 0.92;
     letter-spacing: 3px;
 
-    background: linear-gradient(
-        135deg,
-        var(--white) 30%,
-        var(--orange) 70%,
+    background: radial-gradient(
+        circle at var(--x, 50%) var(--y, 50%),
+        var(--white),
+        var(--orange),
         var(--red)
     );
 
@@ -166,7 +161,7 @@ a {
     -webkit-text-fill-color: transparent;
     background-clip: text;
 
-    animation: fadeUp 0.7s 0.1s ease both;
+    transition: background 0.1s ease;
 }
 
 /* =========================
