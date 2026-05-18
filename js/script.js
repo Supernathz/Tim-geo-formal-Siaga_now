@@ -1,171 +1,139 @@
-window.addEventListener("DOMContentLoaded", () => {
+// ─────────────────────────────────────────────
+// HERO CANVAS SETUP
+// ─────────────────────────────────────────────
+const canvas = document.getElementById("hero-canvas");
+const ctx = canvas.getContext("2d");
 
-    const {
-        Engine,
-        Render,
-        Runner,
-        Bodies,
-        Composite,
-        Events,
-        Body
-    } = Matter;
+let W, H;
 
-    /* =========================
-       HERO TITLE MOUSE EFFECT
-    ========================= */
+function resize() {
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+}
+resize();
+window.addEventListener("resize", resize);
 
-    const title = document.querySelector(".hero-title");
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+const rand = (a, b) => a + Math.random() * (b - a);
 
-    let mouseX = window.innerWidth / 2;
+// ─────────────────────────────────────────────
+// MATERI.JS FLOOD SYSTEM
+// ─────────────────────────────────────────────
+const { Engine, World, Bodies, Body } = Matter;
 
-    document.addEventListener("mousemove", (e) => {
+const engine = Engine.create();
+engine.gravity.y = 0.5;
 
-        mouseX = e.clientX;
+let bodies = [];
+let floodLevel = 0;
+let t = 0;
 
-        if (!title) return;
+// ─────────────────────────────────────────────
+// INIT FLOOD OBJECTS
+// ─────────────────────────────────────────────
+function initFlood() {
+  floodLevel = H;
 
-        const x = (e.clientX / window.innerWidth) * 100;
-        const y = (e.clientY / window.innerHeight) * 100;
+  // clear old bodies
+  for (const b of bodies) {
+    World.remove(engine.world, b);
+  }
+  bodies = [];
 
-        title.style.setProperty("--x", `${x}%`);
-        title.style.setProperty("--y", `${y}%`);
-    });
+  // spawn floating debris
+  for (let i = 0; i < 25; i++) {
+    const box = Bodies.rectangle(
+      rand(0, W),
+      rand(H * 0.2, H),
+      rand(20, 60),
+      rand(10, 25),
+      {
+        restitution: 0.4,
+        friction: 0.3,
+        density: 0.002
+      }
+    );
 
-    /* =========================
-       ENGINE + RENDER
-    ========================= */
+    bodies.push(box);
+    World.add(engine.world, box);
+  }
+}
 
-    const canvas = document.getElementById("physics-canvas");
+// ─────────────────────────────────────────────
+// UPDATE + DRAW FLOOD
+// ─────────────────────────────────────────────
+function drawFlood() {
+  ctx.clearRect(0, 0, W, H);
 
-    const engine = Engine.create();
+  Engine.update(engine);
 
-    const render = Render.create({
-        canvas,
-        engine,
-        options: {
-            width: window.innerWidth,
-            height: window.innerHeight,
-            wireframes: false,
-            background: "transparent"
-        }
-    });
+  // rising flood
+  floodLevel -= 0.15;
+  if (floodLevel < H * 0.35) floodLevel = H * 0.35;
 
-    Render.run(render);
-    Runner.run(Runner.create(), engine);
+  // ── WATER SURFACE ──
+  ctx.beginPath();
+  ctx.moveTo(0, floodLevel);
 
-    /* =========================
-       WATER LEVEL
-    ========================= */
+  for (let x = 0; x <= W; x += 10) {
+    const wave =
+      Math.sin(x * 0.02 + t * 0.02) * 12 +
+      Math.sin(x * 0.05 + t * 0.01) * 6;
 
-    const WATER_LINE = window.innerHeight * 0.72;
+    ctx.lineTo(x, floodLevel + wave);
+  }
 
-    /* =========================
-       FLOOD DEBRIS
-    ========================= */
+  ctx.lineTo(W, H);
+  ctx.lineTo(0, H);
+  ctx.closePath();
 
-    const debris = [];
+  const grad = ctx.createLinearGradient(0, floodLevel, 0, H);
+  grad.addColorStop(0, "rgba(26,115,232,0.65)");
+  grad.addColorStop(1, "rgba(0,20,60,0.85)");
 
-    for (let i = 0; i < 12; i++) {
+  ctx.fillStyle = grad;
+  ctx.fill();
 
-        const body = Bodies.rectangle(
-            Math.random() * window.innerWidth,
-            Math.random() * WATER_LINE,
-            40,
-            40,
-            {
-                frictionAir: 0.04,
-                friction: 0.1,
-                restitution: 0.2,
-                render: {
-                    fillStyle: ["#4caf50", "#8d6e63", "#90a4ae"][Math.floor(Math.random() * 3)],
-                    opacity: 0.2
-                }
-            }
-        );
+  // ── FLOATING OBJECTS ──
+  for (const b of bodies) {
+    const v = b.vertices;
 
-        debris.push(body);
+    // buoyancy (fake water lift)
+    if (b.position.y < floodLevel) {
+      Body.applyForce(b, b.position, {
+        x: 0,
+        y: -0.0018
+      });
     }
 
-    Composite.add(engine.world, debris);
+    ctx.beginPath();
+    ctx.moveTo(v[0].x, v[0].y);
 
-    /* =========================
-       RAIN SYSTEM
-    ========================= */
-
-    const rain = [];
-
-    for (let i = 0; i < 70; i++) {
-
-        const drop = Bodies.rectangle(
-            Math.random() * window.innerWidth,
-            Math.random() * window.innerHeight,
-            2,
-            12,
-            {
-                frictionAir: 0.03,
-                render: {
-                    fillStyle: "#a5d6a7",
-                    opacity: 0.35
-                }
-            }
-        );
-
-        rain.push(drop);
+    for (let i = 1; i < v.length; i++) {
+      ctx.lineTo(v[i].x, v[i].y);
     }
 
-    Composite.add(engine.world, rain);
+    ctx.closePath();
 
-    /* =========================
-       ANIMATION LOOP
-    ========================= */
+    ctx.fillStyle = "rgba(255,255,255,0.75)";
+    ctx.fill();
+  }
 
-    Events.on(engine, "beforeUpdate", () => {
+  t++;
+}
 
-        const time = Date.now() * 0.002;
+// ─────────────────────────────────────────────
+// MAIN LOOP
+// ─────────────────────────────────────────────
+function loop() {
+  drawFlood();
+  requestAnimationFrame(loop);
+}
 
-        /* 🌊 FLOOD MOTION */
-        debris.forEach(body => {
-
-            const wave =
-                Math.sin(time * 0.8 + body.position.y * 0.03) * 0.0012;
-
-            Body.applyForce(body, body.position, {
-                x: 0.0006 + wave,
-                y: wave * 0.6
-            });
-
-            if (body.position.x > window.innerWidth + 120) {
-                Body.setPosition(body, {
-                    x: -80,
-                    y: Math.random() * WATER_LINE
-                });
-            }
-        });
-
-        /* 🌧️ RAIN MOTION */
-        rain.forEach(drop => {
-
-            Body.applyForce(drop, drop.position, {
-                x: (mouseX - drop.position.x) * 0.00001,
-                y: 0.0006
-            });
-
-            if (drop.position.y > window.innerHeight + 50) {
-                Body.setPosition(drop, {
-                    x: Math.random() * window.innerWidth,
-                    y: -50
-                });
-            }
-        });
-    });
-
-    /* =========================
-       RESIZE
-    ========================= */
-
-    window.addEventListener("resize", () => {
-        render.canvas.width = window.innerWidth;
-        render.canvas.height = window.innerHeight;
-    });
-
-});
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+initFlood();
+loop();
