@@ -3,18 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/animation.css">
-  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
-  <script src="js/script.js" defer></script>
 
-    <title>SiagaNow</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
 
     <!-- GOOGLE FONTS -->
     <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap"
         rel="stylesheet"
     >
+
+    <title>SiagaNow</title>
+
+    <!-- Matter.js -->
+    <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
+
+    <!-- JS -->
+    <script src="js/script.js" defer></script>
 </head>
 
 <body>
@@ -23,9 +28,7 @@
     <header>
 
         <div class="nav-left">
-
             <img src="logo.png" alt="Logo" class="logo">
-
         </div>
 
         <nav>
@@ -39,6 +42,12 @@
 
     <!-- HERO -->
     <section id="hero">
+
+        <!-- WATER -->
+        <div class="water"></div>
+
+        <!-- MATTER JS -->
+        <canvas id="physics-canvas"></canvas>
 
         <div class="hero-badge">
             <span></span>
