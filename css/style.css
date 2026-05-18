@@ -168,7 +168,7 @@ a {
     display: inline-block;
 
     background: radial-gradient(
-        circle 650px at var(--x, 50%) var(--y, 50%),
+        circle 450px at var(--x, 50%) var(--y, 50%),
         var(--white) 0%,
         var(--primary-light) 20%,
         var(--primary) 40%,
