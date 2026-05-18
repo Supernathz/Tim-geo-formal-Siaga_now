@@ -1,29 +1,8 @@
-const title = document.querySelector(".hero-title");
-
-document.addEventListener("mousemove", (e) => {
-    const x = (e.clientX / window.innerWidth) * 100;
-    const y = (e.clientY / window.innerHeight) * 100;
-
-    title.style.setProperty("--x", `${x}%`);
-    title.style.setProperty("--y", `${y}%`);
-});
 const { Engine, Render, Runner, Bodies, Composite, Events, Body } = Matter;
 
-const canvas = document.getElementById("physics-canvas");
-
-const engine = Engine.create();
-
-const render = Render.create({
-    canvas: canvas,
-    engine: engine,
-    options: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        wireframes: false,
-        background: "transparent"
-    }
-});
-const { Engine, Render, Runner, Bodies, Composite, Events, Body } = Matter;
+/* =========================
+   HERO TITLE MOUSE EFFECT
+========================= */
 
 const title = document.querySelector(".hero-title");
 
@@ -33,15 +12,21 @@ document.addEventListener("mousemove", (e) => {
 
     title.style.setProperty("--x", `${x}%`);
     title.style.setProperty("--y", `${y}%`);
+
+    mouseX = e.clientX;
 });
+
+/* =========================
+   ENGINE SETUP (ONLY ONCE)
+========================= */
 
 const canvas = document.getElementById("physics-canvas");
 
 const engine = Engine.create();
 
 const render = Render.create({
-    canvas: canvas,
-    engine: engine,
+    canvas,
+    engine,
     options: {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -53,7 +38,15 @@ const render = Render.create({
 Render.run(render);
 Runner.run(Runner.create(), engine);
 
+/* =========================
+   CONFIG
+========================= */
+
 const WATER_LINE = window.innerHeight * 0.72;
+
+/* =========================
+   FLOOD DEBRIS
+========================= */
 
 const debrisBodies = [];
 
@@ -81,6 +74,10 @@ for (let i = 0; i < 12; i++) {
 
 Composite.add(engine.world, debrisBodies);
 
+/* =========================
+   RAIN
+========================= */
+
 const rainDrops = [];
 
 for (let i = 0; i < 80; i++) {
@@ -104,30 +101,41 @@ for (let i = 0; i < 80; i++) {
 
 Composite.add(engine.world, rainDrops);
 
+/* =========================
+   MOUSE CONTROL
+========================= */
+
 let mouseX = window.innerWidth / 2;
 
-document.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX;
-});
+/* =========================
+   MAIN LOOP
+========================= */
+
 Events.on(engine, "beforeUpdate", () => {
 
     const time = Date.now() * 0.002;
 
+    /* =========================
+       FLOOD SYSTEM
+    ========================= */
+
     debrisBodies.forEach(body => {
 
+        // 🌊 current flow
         Body.applyForce(body, body.position, {
             x: 0.0012,
             y: 0
         });
 
-        const wave =
-            Math.sin(time + body.position.y * 0.02) * 0.0004;
+        // 🌊 wave motion
+        const wave = Math.sin(time + body.position.y * 0.02) * 0.0004;
 
         Body.applyForce(body, body.position, {
             x: 0,
             y: wave
         });
 
+        // 🌊 buoyancy
         if (body.position.y > WATER_LINE) {
             Body.applyForce(body, body.position, {
                 x: 0,
@@ -135,6 +143,7 @@ Events.on(engine, "beforeUpdate", () => {
             });
         }
 
+        // ♻️ loop
         if (body.position.x > window.innerWidth + 100) {
             Body.setPosition(body, {
                 x: -120 - Math.random() * 50,
@@ -142,6 +151,10 @@ Events.on(engine, "beforeUpdate", () => {
             });
         }
     });
+
+    /* =========================
+       RAIN SYSTEM (MOUSE FOLLOW)
+    ========================= */
 
     rainDrops.forEach(drop => {
 
@@ -161,7 +174,12 @@ Events.on(engine, "beforeUpdate", () => {
     });
 });
 
+/* =========================
+   RESIZE HANDLING
+========================= */
+
 window.addEventListener("resize", () => {
+
     render.canvas.width = window.innerWidth;
     render.canvas.height = window.innerHeight;
 });
