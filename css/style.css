@@ -1,9 +1,20 @@
 :root {
-    --orange: #ef6c00;
-    --orange-light: #ff9a3c;
-    --red: #c62828;
-    --blue: #1565c0;
+    /* primer */
+    --primary: #4caf50;
+    --primary-light: #a5d6a7;
+    --primary-dark: #2e7d32;
 
+    /* bonus */
+    --orange: #ff9800;
+    --orange-light: #ffb74d;
+
+    --red: #c62828;
+    --red-light: #ef5350;
+
+    --blue: #1565c0;
+    --blue-light: #42a5f5;
+
+    /*netral*/
     --white: #f3f4f6;
     --grey: #6b7280;
 
@@ -120,17 +131,22 @@ nav a:hover {
 
     position: relative;
     overflow: hidden;
-
+    
     background:
         radial-gradient(
             ellipse at 60% 40%,
-            rgba(239,108,0,0.15) 0%,
+            rgba(76,175,80,0.15) 0%,
             transparent 60%
         ),
         radial-gradient(
             ellipse at 20% 80%,
             rgba(21,101,192,0.12) 0%,
-            transparent 50%
+            transparent 55%
+        ),
+        radial-gradient(
+            ellipse at 80% 20%,
+            rgba(255,152,0,0.10) 0%,
+            transparent 60%
         ),
         var(--dark);
 }
@@ -144,59 +160,39 @@ a {
 }
 
 .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-
-    font-size: clamp(5rem, 14vw, 11rem);
-    line-height: 0.92;
-    letter-spacing: 3px;
-
     background: radial-gradient(
-        circle at var(--x, 50%) var(--y, 50%),
-        var(--white),
-        var(--orange),
-        var(--red)
+        circle 650px at var(--x, 50%) var(--y, 50%),
+        rgba(255,255,255,1) 0%,
+        rgba(165,214,167,0.85) 30%,
+        rgba(21,101,192,0.25) 60%,
+        rgba(255,152,0,0.15) 85%,
+        rgba(198,40,40,0.15) 100%
     );
 
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-
-    transition: background 0.1s ease;
 }
-
-/* =========================
-   HERO SUBTITLE
-========================= */
 
 .hero-sub {
     font-size: clamp(1rem, 2.5vw, 1.3rem);
-
     color: rgba(255, 255, 255, 0.6);
-
     margin: 18px auto 40px;
-
     max-width: 500px;
-
     font-style: italic;
-
     animation: fadeUp 0.7s 0.2s ease both;
 }
 
 .cta-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-
-    background: var(--orange);
-    color: #000;
+    background: var(--primary);
+    color: #0b0f14;
+    box-shadow: 0 0 40px rgba(76, 175, 80, 0.35);
     font-weight: 700;
     font-size: 1rem;
     letter-spacing: 0.5px;
     padding: 16px 36px;
     border-radius: 8px;
     text-decoration: none;
-    box-shadow: 0 0 40px rgba(239, 108, 0, 0.4);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     animation: fadeUp 0.7s 0.3s ease both;
 }
