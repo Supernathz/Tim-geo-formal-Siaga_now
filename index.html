@@ -9,7 +9,7 @@
 
   <title>SiagaNow – E-Mitigasi</title>
 
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -24,45 +24,65 @@
 
 <body>
 
-
+  <!-- NAV -->
   <nav>
     <span class="nav-logo">SiagaNow</span>
 
     <ul class="nav-links">
       <li><a href="#katalog">Katalog</a></li>
-      <li><a href="#lab">Lab</a></li>
+      <li><a href="#lab">Lab Kesiapsiagaan</a></li>
       <li><a href="#blog">Edukasi</a></li>
-      <li><a href="#footer">Darurat</a></li>
+      <li><a href="#footer">Kontak Darurat</a></li>
     </ul>
   </nav>
 
-
+  <!-- HERO -->
   <section id="hero">
 
     <canvas id="hero-canvas"></canvas>
 
-    <div class="disaster-tabs fade-up">
-      <button class="dtab active">🌋 Gempa</button>
-      <button class="dtab">🌊 Banjir</button>
-      <button class="dtab">⛰️ Longsor</button>
+    <div class="disaster-tabs">
+      <button
+        class="dtab active"
+        data-d="gempa"
+        onclick="switchDisaster('gempa', this)"
+      >
+        🌋 Gempa Bumi
+      </button>
+
+      <button
+        class="dtab"
+        data-d="banjir"
+        onclick="switchDisaster('banjir', this)"
+      >
+        🌊 Banjir
+      </button>
+
+      <button
+        class="dtab"
+        data-d="longsor"
+        onclick="switchDisaster('longsor', this)"
+      >
+        ⛰️ Tanah Longsor
+      </button>
     </div>
 
-    <div class="hero-badge fade-up">
+    <div class="hero-badge">
       <span></span>
-      PLATFORM E-MITIGASI INDONESIA
+      E-Mitigasi Bencana Indonesia
     </div>
 
-    <h1 class="hero-title fade-up">
+    <h1>
       SiagaNow
     </h1>
 
-    <p class="hero-sub fade-up">
-      Pelajari mitigasi bencana dengan pengalaman
-      interaktif modern untuk meningkatkan kesiapsiagaan
-      masyarakat Indonesia.
+    <p class="hero-sub">
+      Karena bencana bisa datang kapan saja.
+      Belajar mitigasi dengan pengalaman interaktif modern.
     </p>
 
-    <a href="#lab" class="cta-btn fade-up">
+    <a href="#lab" class="cta-btn">
+
       <svg
         viewBox="0 0 24 24"
         fill="none"
@@ -73,7 +93,8 @@
         <circle cx="12" cy="12" r="10"/>
       </svg>
 
-      Mulai Belajar
+      Ayo Mulai Kuis
+
     </a>
 
     <div class="hero-scroll">
@@ -82,6 +103,7 @@
 
   </section>
 
+  <!-- KATALOG -->
   <section id="katalog">
 
     <p class="section-label">
@@ -89,17 +111,20 @@
     </p>
 
     <h2 class="section-title">
-      Kenali Bencana
+      Kenali Bencanamu
     </h2>
 
     <p class="section-desc">
-      Pelajari tindakan mitigasi penting untuk menghadapi
-      gempa bumi, banjir, dan tanah longsor.
+      Pelajari jenis bencana paling umum dan tindakan
+      mitigasi penting untuk melindungi diri dan orang sekitar.
     </p>
 
     <div class="katalog-grid">
 
+      <!-- GEMPA -->
       <div class="bencana-card card-gempa">
+
+        <div class="card-glow"></div>
 
         <div class="card-icon-wrap">
           🏚️
@@ -116,19 +141,23 @@
           </h3>
 
           <p class="card-msg">
-            Saat gempa terjadi,
-            berlindung di bawah meja kokoh dan
-            jauhi kaca atau benda berat.
+            Saat gempa terjadi, merunduk,
+            berlindung di bawah meja kokoh,
+            dan bertahan sampai guncangan berhenti.
           </p>
 
           <div class="card-tip">
-            Gunakan benda kokoh untuk melindungi kepala.
+            Gunakan benda kokoh untuk melindungi kepala
+            dan jauhi kaca atau benda berat.
           </div>
 
         </div>
       </div>
 
+      <!-- BANJIR -->
       <div class="bencana-card card-banjir">
+
+        <div class="card-glow"></div>
 
         <div class="card-icon-wrap">
           🌊
@@ -145,18 +174,23 @@
           </h3>
 
           <p class="card-msg">
-            Selamatkan, Amankan, dan Bersiaga
-            mengikuti jalur evakuasi.
+            Selamatkan, Amankan, dan Bersiaga.
+            Ikuti jalur evakuasi dan pindahkan
+            barang penting ke tempat tinggi.
           </p>
 
           <div class="card-tip">
-            Jangan melintasi arus banjir deras.
+            Jangan melintasi arus banjir deras,
+            bahkan air setinggi lutut berbahaya.
           </div>
 
         </div>
       </div>
 
+      <!-- LONGSOR -->
       <div class="bencana-card card-longsor">
+
+        <div class="card-glow"></div>
 
         <div class="card-icon-wrap">
           ⛰️
@@ -174,19 +208,22 @@
 
           <p class="card-msg">
             Hindari area lereng setelah hujan deras
-            dan kenali jalur evakuasi.
+            dan kenali jalur evakuasi menuju area aman.
           </p>
 
           <div class="card-tip">
-            Retakan tanah adalah tanda bahaya longsor.
+            Retakan tanah dan suara gemuruh
+            adalah tanda bahaya longsor.
           </div>
 
         </div>
       </div>
 
     </div>
+
   </section>
 
+  <!-- LAB -->
   <section id="lab">
 
     <p class="section-label">
@@ -198,77 +235,156 @@
     </h2>
 
     <p class="section-desc">
-      Bangun kesiapsiagaan pribadi melalui
-      checklist Tas Siaga Bencana.
+      Cek Tas Siaga Bencana dan uji pengetahuanmu
+      lewat kuis mitigasi interaktif.
     </p>
 
     <div class="lab-grid">
 
+      <!-- CHECKLIST -->
       <div class="checklist-card">
 
         <h3>
-          🎒 Tas Siaga
+          🎒 Tas Siaga Bencana
         </h3>
 
         <p class="checklist-sub">
-          Barang penting yang harus tersedia.
+          Centang barang yang sudah kamu siapkan
         </p>
 
-        <div class="checklist-item">
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <span class="checklist-icon">📄</span>
           <div class="check-box"></div>
-          Dokumen penting
+          <span class="check-label">
+            Dokumen penting
+          </span>
         </div>
 
-        <div class="checklist-item">
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <span class="checklist-icon">💧</span>
           <div class="check-box"></div>
-          Air minum
+          <span class="check-label">
+            Air minum
+          </span>
         </div>
 
-        <div class="checklist-item">
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <span class="checklist-icon">🔦</span>
           <div class="check-box"></div>
-          Senter & baterai
+          <span class="check-label">
+            Senter & baterai
+          </span>
         </div>
 
-        <div class="progress-track">
-          <div class="progress-fill"></div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <span class="checklist-icon">🥫</span>
+          <div class="check-box"></div>
+          <span class="check-label">
+            Makanan tahan lama
+          </span>
+        </div>
+
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <span class="checklist-icon">🔴</span>
+          <div class="check-box"></div>
+          <span class="check-label">
+            Peluit darurat
+          </span>
+        </div>
+
+        <div class="progress-bar-wrap">
+
+          <div class="progress-label">
+            <span>Progres Persiapan</span>
+            <span id="prog-count">0 / 5</span>
+          </div>
+
+          <div class="progress-track">
+            <div
+              class="progress-fill"
+              id="prog-fill"
+              style="width: 0%;"
+            ></div>
+          </div>
+
         </div>
 
       </div>
 
+      <!-- QUIZ -->
       <div class="quiz-card">
 
         <h3>
-          🧠 Kuis Mitigasi
+          🧠 Kuis Kesiapsiagaan
         </h3>
 
         <p class="quiz-sub">
-          Uji pemahaman dasar mitigasi bencana.
+          Uji pengetahuan mitigasi bencanamu
         </p>
 
-        <div class="quiz-opt">
-          Berlindung di bawah meja saat gempa.
+        <div id="quiz-body">
+
+          <p class="quiz-num" id="q-num">
+            Pertanyaan 1 / 5
+          </p>
+
+          <p class="quiz-q" id="q-text"></p>
+
+          <div class="quiz-opts" id="q-opts"></div>
+
+          <div
+            class="quiz-feedback"
+            id="q-feedback"
+          ></div>
+
+          <div class="quiz-nav">
+
+            <button
+              class="quiz-btn primary"
+              id="q-next"
+              onclick="nextQ()"
+              style="display:none"
+            >
+              Selanjutnya →
+            </button>
+
+          </div>
+
         </div>
 
-        <div class="quiz-opt">
-          Berdiri dekat kaca.
+        <div
+          class="quiz-score"
+          id="quiz-score"
+        >
+
+          <div
+            class="score-num"
+            id="score-val"
+          >
+            0
+          </div>
+
+          <div class="score-label">
+            dari 5 pertanyaan benar 🎉
+          </div>
+
+          <button
+            class="quiz-btn primary"
+            onclick="resetQuiz()"
+            style="margin-top:20px;"
+          >
+            Coba Lagi
+          </button>
+
         </div>
-
-        <div class="quiz-feedback">
-          Pilihan pertama adalah tindakan yang benar.
-        </div>
-
-        <br>
-
-        <button class="quiz-btn primary">
-          Selanjutnya →
-        </button>
 
       </div>
 
     </div>
+
   </section>
 
-
+  <!-- BLOG -->
   <section id="blog">
 
     <p class="section-label">
@@ -280,8 +396,8 @@
     </h2>
 
     <p class="section-desc">
-      Edukasi singkat untuk meningkatkan
-      kesiapsiagaan masyarakat.
+      Artikel singkat untuk meningkatkan
+      kesiapsiagaan masyarakat Indonesia.
     </p>
 
     <div class="blog-card">
@@ -289,7 +405,7 @@
       <div class="blog-header">
 
         <p class="blog-tag">
-          Salatiga · Jawa Tengah
+          📍 Salatiga · Jawa Tengah
         </p>
 
         <h3 class="blog-title">
@@ -318,9 +434,9 @@
             </h4>
 
             <p>
-              Salatiga berada di kawasan
-              pegunungan dan perbukitan
-              yang rawan longsor dan gempa.
+              Salatiga berada di kawasan pegunungan
+              dan perbukitan yang rawan longsor,
+              banjir, dan gempa bumi.
             </p>
 
           </div>
@@ -342,7 +458,7 @@
             <p>
               Gempa bumi, banjir, dan tanah longsor
               merupakan ancaman utama yang perlu
-              dipahami masyarakat.
+              dipahami masyarakat sekitar.
             </p>
 
           </div>
@@ -350,18 +466,21 @@
         </div>
 
       </div>
+
     </div>
+
   </section>
 
+  <!-- FOOTER -->
   <footer id="footer">
 
     <div class="footer-grid">
 
       <div class="footer-brand">
 
-        <div class="nav-logo">
+        <span class="nav-logo">
           SiagaNow
-        </div>
+        </span>
 
         <p>
           Platform edukasi mitigasi bencana
@@ -374,7 +493,7 @@
       <div class="footer-col">
 
         <h5>
-          🚨 Darurat Nasional
+          🚨 Nomor Darurat
         </h5>
 
         <a class="emergency-num" href="tel:112">
@@ -383,14 +502,16 @@
             112
           </span>
 
-          <div>
-            <div class="num-name">
-              Darurat Nasional
-            </div>
+          <div class="num-info">
 
-            <div class="num-desc">
+            <span class="num-name">
+              Darurat Nasional
+            </span>
+
+            <span class="num-desc">
               Semua kondisi darurat
-            </div>
+            </span>
+
           </div>
 
         </a>
@@ -414,7 +535,7 @@
   </footer>
 
   <!-- JS -->
-  <script src="js/script.js"></script>
+  <script src="js/script.js" defer></script>
 
 </body>
 </html>
